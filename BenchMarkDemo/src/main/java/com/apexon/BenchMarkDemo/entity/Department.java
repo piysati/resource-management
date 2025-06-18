@@ -1,5 +1,6 @@
 package com.apexon.BenchMarkDemo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public class Department {
     public String name;
 
     @OneToMany(mappedBy = "department")
+    @JsonIgnore
     public List<Employee> employees;
 
     public int getId() {

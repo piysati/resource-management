@@ -11,13 +11,13 @@ public class Project {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int id;
+    public Integer id;
     public String title;
     @Temporal(TemporalType.DATE)
     public LocalDate start_date;
     @Temporal(TemporalType.DATE)
     public LocalDate end_date;
-    public int budget;
+    public Integer budget;
 
     @ManyToMany(mappedBy = "projects")
     public List<Employee> employees;

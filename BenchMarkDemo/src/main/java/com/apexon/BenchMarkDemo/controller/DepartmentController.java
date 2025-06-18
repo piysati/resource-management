@@ -21,7 +21,7 @@ public class DepartmentController {
     }
 
     @PostMapping(value = "/")
-    public Department createDepartment(Department department){
+    public Department createDepartment(@RequestBody Department department){
         return departmentService.createDepartment(department);
     }
 
@@ -42,7 +42,7 @@ public class DepartmentController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public void deleteDepartment(int id){
+    public void deleteDepartment(@PathVariable int id){
         departmentService.deleteDepartment(id);
     }
 }
