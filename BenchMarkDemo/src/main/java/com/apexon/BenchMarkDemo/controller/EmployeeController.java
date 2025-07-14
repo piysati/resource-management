@@ -1,9 +1,14 @@
 package com.apexon.BenchMarkDemo.controller;
 
+import com.apexon.BenchMarkDemo.dto.EmployeeRequestDTO;
+import com.apexon.BenchMarkDemo.dto.EmployeeResponseDTO;
 import com.apexon.BenchMarkDemo.entity.Employee;
 import com.apexon.BenchMarkDemo.repository.EmployeeRepo;
 import com.apexon.BenchMarkDemo.service.EmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,27 +21,28 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @PostMapping(value = "/")
-    public Employee addEmployee(@RequestBody Employee employee){
-        return employeeService.addEmployee(employee);
+    public ResponseEntity<EmployeeResponseDTO> addEmployee(@RequestBody @Valid EmployeeRequestDTO employeeRequestDTO){
+        return ResponseEntity.status(HttpStatus.CREATED).body(employeeService.addEmployee(employeeRequestDTO));
     }
 
     @GetMapping(value = "/{id}")
-    public Employee getEmployee(@PathVariable int id){
-        return employeeService.getEmployee(id);
+    public ResponseEntity<EmployeeResponseDTO> getEmployee(@PathVariable int id){
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.getEmployee(id));
     }
 
     @GetMapping(value = "/")
-    public List<Employee> getAllEmployees(){
-        return employeeService.getAllEmployee();
+    public ResponseEntity<List<EmployeeResponseDTO>> getAllEmployees(){
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.getAllEmployee());
     }
 
     @PutMapping(value = "/{id}")
-    public Employee updateEmployee(@PathVariable int id, @RequestBody Employee employee){
-        return employeeService.updateEmployee(id, employee);
+    public ResponseEntity<EmployeeResponseDTO> updateEmployee(@PathVariable int id, @RequestBody @Valid EmployeeRequestDTO employeeRequestDTO){
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.updateEmployee(id, employeeRequestDTO));
     }
 
-    @DeleteMapping(value = "/")
-    public void deleteEmployee(@PathVariable int id){
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteEmployee(@PathVariable int id){
         employeeService.deleteEmployee(id);
+        return ResponseEntity.noContent().build();
     }
 }

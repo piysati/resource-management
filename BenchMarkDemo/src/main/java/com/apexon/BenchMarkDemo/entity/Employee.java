@@ -1,7 +1,11 @@
 package com.apexon.BenchMarkDemo.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotBlank;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -11,9 +15,11 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int id;
+    @Column(name = "first_name")
     public String first_Name;
     public String last_Name;
-    public int salary;
+    @Column
+    public BigDecimal salary;
 
     @ManyToOne
     @JoinColumn(name = "department_id")
@@ -49,11 +55,11 @@ public class Employee {
         this.last_Name = last_Name;
     }
 
-    public int getSalary() {
+    public BigDecimal getSalary() {
         return salary;
     }
 
-    public void setSalary(int salary) {
+    public void setSalary(BigDecimal salary) {
         this.salary = salary;
     }
 

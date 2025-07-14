@@ -1,9 +1,14 @@
 package com.apexon.BenchMarkDemo.controller;
 
+import com.apexon.BenchMarkDemo.dto.DepartmentRequestDTO;
+import com.apexon.BenchMarkDemo.dto.DepartmentResponseDTO;
 import com.apexon.BenchMarkDemo.entity.Department;
 import com.apexon.BenchMarkDemo.service.DepartmentService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,28 +26,31 @@ public class DepartmentController {
     }
 
     @PostMapping(value = "/")
-    public Department createDepartment(@RequestBody Department department){
-        return departmentService.createDepartment(department);
+    public ResponseEntity<DepartmentResponseDTO> createDepartment(@Valid @RequestBody DepartmentRequestDTO departmentRequestDTO){
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(departmentService.createDepartment(departmentRequestDTO));
     }
 
     @GetMapping(value = "/{id}")
-    public Department getDepartment(@PathVariable int id){
-        return departmentService.getDepartment(id);
+    public ResponseEntity<DepartmentResponseDTO> getDepartment(@PathVariable int id){
+        return ResponseEntity.status(HttpStatus.OK).body(departmentService.getDepartment(id));
     }
 
     @GetMapping(value = "/")
-    public List<Department> getAllDepartment(){
-        return departmentService.getAllDepartment();
+    public ResponseEntity<List<DepartmentResponseDTO>> getAllDepartment(){
+        return ResponseEntity.status(HttpStatus.OK).body(departmentService.getAllDepartment());
     }
 
     @PutMapping(value = "/{id}")
-    public Department updateDepartment(@PathVariable int id, @RequestBody Department department){
-        return departmentService.updateDepartment(id, department);
+    public ResponseEntity<DepartmentResponseDTO> updateDepartment(@PathVariable int id, @Valid @RequestBody DepartmentRequestDTO departmentRequestDTO){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(departmentService.updateDepartment(id, departmentRequestDTO));
 
     }
 
     @DeleteMapping(value = "/{id}")
-    public void deleteDepartment(@PathVariable int id){
+    public ResponseEntity<Void> deleteDepartment(@PathVariable int id){
         departmentService.deleteDepartment(id);
+        return ResponseEntity.noContent().build();
     }
 }
